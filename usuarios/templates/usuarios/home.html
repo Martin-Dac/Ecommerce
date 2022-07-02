@@ -1,0 +1,22 @@
+{% extends 'usuarios/base.html'%}
+{% load static %}
+{% block content %}
+
+
+<div class="news-cards">
+    {% for producto in productos%}
+    <div class="card">
+        {% if producto.ImagenURL%}
+        <img src="{{producto.ImagenURL}}" alt="Card 1">
+        {% else %}
+        <img src="{% static 'images/placeholder.png' %}" alt="">
+        {% endif %}
+        <H3>{{producto.name}} </H3>
+        <h4>Precio: ${{producto.precio|floatformat:2}}</h4>
+        <button data-producto="{{producto.id}}" data-action="add" class="Hbtn Actu-Carrito">Comprar</button>
+        <button class="Hbtn">Ver producto</button>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

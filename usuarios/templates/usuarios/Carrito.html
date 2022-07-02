@@ -1,0 +1,66 @@
+{% extends 'usuarios/base.html'%}
+{% load static %}
+<!-- FONT AWESOME-->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+
+{% block content %}
+<div class="Grid-Cart">
+    <div class="Caja c1">
+        <a href="{% url 'home' %}">Volver a la tienda</a>
+    </div>
+    <div class="Caja">
+        <h1>Items:{{orden.Items_Carrito}}</h1>
+    </div> 
+    <div class="Caja">
+        <h1>Total:</h1>
+        <h1>${{orden.Total_Carrito|floatformat:1}}</h1>
+    </div>
+    <div class="Caja c4">
+        <h1>Comprar</h1>
+    </div>
+    <div class="Caja">
+    </div>
+    <div class="Caja">
+        <h1>Item</h1>
+    </div>
+    <div class="Caja">
+        <h1>Precio</h1>
+    </div>
+    <div class="Caja">
+        <h1>Cantidad</h1>
+    </div>
+    <div class="Caja">
+        <h1>Total</h1>
+    </div>
+    {% for Items in OrdenItems%}
+
+    <div class="Caja">
+        {% if Items.producto.ImagenURL%}
+        <img class="row-image" src="{{Items.producto.ImagenURL}}" alt="Card 1">
+        {% else %}
+        <img src="{% static 'images/placeholder.png' %}" alt="">
+        {% endif %}
+    </div>
+    <div class="Caja">
+        <h4>{{Items.producto.name}}</h4>
+    </div>
+    <div class="Caja">
+        <h4>${{Items.producto.precio|floatformat:1}}</h4>
+    </div>
+    <div class="Caja">
+        <h4>{{Items.Cantidad}} </h4>
+        <button data-producto="{{Items.producto.id}}" data-action="add" class="flechita Actu-Carrito"><i class="fa-solid fa-arrow-up"></i></button>
+        <button data-producto="{{Items.producto.id}}" data-action="remove" class="flechita Actu-Carrito"><i class="fa-solid fa-arrow-down"></i></button>
+    </div>
+    <div class="Caja">
+        <h4>${{Items.total_orden|floatformat:1}} </h4>
+    </div>
+
+
+
+    {% endfor %}
+</div>
+
+
+
+{% endblock %}

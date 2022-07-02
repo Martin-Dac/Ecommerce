@@ -1,0 +1,34 @@
+{% extends 'usuarios/base.html'%}
+{% load static %}
+{% block content %}
+
+<div class="Login-form">
+    <form method="POST">
+        {% csrf_token %}
+        <div class="LogCard">
+            <h2>Inicio de sesion</h2>
+            {% for login in form %}
+            <label>{{login.label}}</label>
+            {{login}}
+            {% endfor %}
+            <button type="submit" name="submit" value="Login" class="Hbtn">Ingreso</button>
+            {% for mensaje in messages %}
+            <p>{{mensaje}}</p>
+            {% endfor %}
+        </div>
+    </form>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="LogCard">
+            <h2>Crea una cuenta</h2>
+            {% for SingIn in FormSingIn %}
+            <label>{{SingIn.label}}</label>
+            {{SingIn}}
+            {% endfor %}
+            <button type="submit" name="submit" value="SingIn" class="Hbtn">Ingreso</button>
+        </div>
+    </form>
+</div>
+
+
+{% endblock %}
