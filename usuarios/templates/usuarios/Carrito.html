@@ -38,7 +38,7 @@
         {% if Items.producto.ImagenURL%}
         <img class="row-image" src="{{Items.producto.ImagenURL}}" alt="Card 1">
         {% else %}
-        <img src="{% static 'images/placeholder.png' %}" alt="">
+        <img class="row-image" src="{% static 'images/placeholder.png' %}" alt="">
         {% endif %}
     </div>
     <div class="Caja">

@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 
 
 from .models import Usuario, Producto, Orden, OrdenItem, direccion_envio
-from .forms import LoginForm, SingIn
+from .forms import LoginForm, SingIn, ProductoForm
 from .decorators import unauthenticated_user
 
 def Venta_check(user):
@@ -116,7 +116,19 @@ def Login(request):
 
 @user_passes_test(Venta_check, login_url='home')
 def Vender(request):
-    return render(request, 'usuarios/vender.html')
+    form = ProductoForm
+
+    if request.method == "POST":
+        form = ProductoForm(request.POST, request.FILES)
+
+        if form.is_valid():
+            Producto = form.save(commit=False)
+            Producto.vendido_por = Usuario.objects.get(user = request.user)
+            form.save()
+            return redirect('home')
+
+    context = {'form': form} 
+    return render(request, 'usuarios/vender.html', context)
 
 def Buscar_Productos(request):
     if request.method == 'POST':

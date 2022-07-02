@@ -2,6 +2,8 @@ from django.forms import ModelForm, EmailInput, TextInput, PasswordInput, CharFi
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
+from .models import Producto
+
 
 class LoginForm(ModelForm):
     
@@ -60,3 +62,9 @@ class SingIn(UserCreationForm):
             'username' : 'Nombre de Usuario',
             'email' : 'Mail',
         }
+
+class ProductoForm(ModelForm):
+
+    class Meta:
+        model = Producto
+        fields = ('name', 'precio', 'digital', 'imagen')

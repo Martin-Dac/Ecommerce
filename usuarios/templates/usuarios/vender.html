@@ -5,5 +5,10 @@
 {% block content %}
 
 <H2>Crear venta</H2>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{form.as_p}}
+    <input type="submit" value="enviar">
+</form>
 
 {% endblock %}
