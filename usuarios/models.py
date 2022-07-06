@@ -17,7 +17,7 @@ class Usuario(models.Model):
 
 class Producto(models.Model):
     name = models.CharField(max_length=100, null=True)
-    precio = models.FloatField()
+    precio = models.DecimalField(max_digits=9, decimal_places=2)
     digital = models.BooleanField(default=False, null=True)
     vendido_por = models.ForeignKey(Usuario, on_delete=CASCADE, null=True)
     imagen = models.ImageField(null=True, blank=True)

@@ -2,7 +2,14 @@
 {% load static %}
 {% block content %}
 
+{% if messages %}
+{% for mensaje in messages %}
 
+<div class="ErrorCard"><i class="fa-solid fa-triangle-exclamation fa-beat-fade" style="margin-right: 4px;"></i>{{mensaje}}</div>
+
+{% endfor %}
+
+{% endif %}
 <div class="news-cards">
     {% for producto in productos%}
     <div class="card">
@@ -11,10 +18,12 @@
         {% else %}
         <img src="{% static 'images/placeholder.png' %}" alt="">
         {% endif %}
-        <H3>{{producto.name}} </H3>
-        <h4>Precio: ${{producto.precio|floatformat:2}}</h4>
-        <button data-producto="{{producto.id}}" data-action="add" class="Hbtn Actu-Carrito">Comprar</button>
-        <button class="Hbtn">Ver producto</button>
+        <div class="cardItems">
+            <H3>{{producto.name}} </H3>
+            <h4>Precio: ${{producto.precio|floatformat:2}}</h4>
+            <button data-producto="{{producto.id}}" data-action="add" class="Hbtn Actu-Carrito">Comprar</button>
+            <button class="Hbtn">Ver producto</button>
+        </div>
     </div>
     {% endfor %}
 </div>

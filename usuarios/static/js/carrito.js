@@ -7,7 +7,7 @@ for( var i = 0; i < actubtn.length; i++){
         console.log('productoId', productoId, 'accion: ', accion)
         console.log('USER: ', user)
         if(user === 'AnonymousUser'){
-            alert("Inicia sesion para comprar")
+            alert("Para comprar hay que iniciar sesion")
         }
         else{
             UpdateUserOrder(productoId, accion)

@@ -45,11 +45,13 @@
         <nav class="nav-main">
             <ul class="nav-menu">
                 <li>
-                    <a href="{% url 'home' %}">Tienda</a>
+                    <a href="{% url 'home' %}"><i class="fa-solid fa-basket-shopping fa-xs"
+                            style="margin-right: 4px;"></i>Tienda</a>
                 </li>
                 <li>
                     {% if request.user.usuario.vendedor == True %}
-                    <a href="{% url 'vender' %}">Crear nuevo producto</a>
+                    <a href="{% url 'vender' %}"><i class="fa-solid fa-tag fa-sm"
+                            style="margin-right: 4px;"></i>Vender</a>
                     {% endif %}
                 </li>
             </ul>
@@ -67,9 +69,14 @@
                 <li class="dropdown">
                     <i class="fa-solid fa-user"></i>
                     <div class="dropdown-content">
-                        <p>Hola {{request.user}}</p>
-                        <a href="#">Mi perfil</a>
-                        <a href="{% url 'logout' %}">Cerrar sesion</a>
+                        <p style="text-align: center;">Hola {{request.user}}</p>
+                        <a href="#"><i class="fa-solid fa-user" style="margin-right: 4px;"></i>Mi perfil</a>
+                        {% if request.user.usuario.vendedor == True %}
+                        <a href="{% url 'vender' %}"><i class="fa-solid fa-tag fa-sm"
+                                style="margin-right: 4px;"></i>Vender</a>
+                        {% endif %}
+                        <a href="{% url 'logout' %}"><i class="fa-solid fa-right-from-bracket fa-sm"
+                            style="margin-right: 4px;"></i>Cerrar sesion</a>
                     </div>
                 </li>
                 <li>

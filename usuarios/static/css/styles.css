@@ -142,6 +142,19 @@ ul.nav-menu-right a.login:hover{
     vertical-align: top;
 }
 
+.ErrorCard{
+    border-radius: 10px;
+    background-color: rgb(252, 27, 27);
+    height: auto;
+    align-self: center;
+    width: max-content;
+    max-width: 400px;
+    padding: 7px;
+    margin: auto;
+    margin-top: 10px;
+    text-align: center;
+}
+
 /* CARDS */
 .news-cards{
     display: grid;
@@ -156,14 +169,18 @@ ul.nav-menu-right a.login:hover{
 .card{
     border: 2px solid #ffffff;
     border-radius: 5px;
-    padding: 15px;
+    padding: auto;
     background-color: #666f7a9d;
+}
+
+.card .cardItems{
+    padding: 15px;
 }
 
 .card img{
     width: 100%;
     height: 180px;
-    border: 2px #000000;
+    border-bottom: 2px solid #ffffff;
 }
 
 .card h3{
@@ -177,13 +194,14 @@ ul.nav-menu-right a.login:hover{
     background-color: transparent;
     padding: 5px 15px;
     text-decoration: none;
-    margin-top: 5px;
+    margin-top: 10px;
     display: inline-block;
 }
 
 .Hbtn:hover{
     background-color: #1fb81f;
     color: rgb(255, 255, 255);
+    transform: translateY(-2px);
 }
 
 /* Carrito */
@@ -255,6 +273,7 @@ ul.nav-menu-right a.login:hover{
     text-align: center;
     float: left;
     margin: 5px;
+    overflow: auto;
 }
 
 .LogCard h2{

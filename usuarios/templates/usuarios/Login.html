@@ -13,7 +13,7 @@
             {% endfor %}
             <button type="submit" name="submit" value="Login" class="Hbtn">Ingreso</button>
             {% for mensaje in messages %}
-            <p>{{mensaje}}</p>
+            <div class="ErrorCard"><p>{{mensaje}}</p></div>
             {% endfor %}
         </div>
     </form>
@@ -25,6 +25,7 @@
             <label>{{SingIn.label}}</label>
             {{SingIn}}
             {% endfor %}
+            {{FormSingIn.errors}}
             <button type="submit" name="submit" value="SingIn" class="Hbtn">Ingreso</button>
         </div>
     </form>
