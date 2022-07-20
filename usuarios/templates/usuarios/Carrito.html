@@ -1,5 +1,8 @@
-{% extends 'usuarios/base.html'%}
-{% load static %}
+{% extends 'usuarios/base.html' %}
+
+{% load static %} 
+
+{% block title %} Carrito {% endblock %}
 <!-- FONT AWESOME-->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
 
@@ -9,28 +12,29 @@
         <a href="{% url 'home' %}">Volver a la tienda</a>
     </div>
     <div class="Caja">
-        <h1>Items:{{orden.Items_Carrito}}</h1>
+        <h1 class="ChH1">Items:</h1>
+        <h2>{{orden.Items_Carrito}}</h2>
     </div> 
     <div class="Caja">
-        <h1>Total:</h1>
-        <h1>${{orden.Total_Carrito|floatformat:1}}</h1>
+        <h1 class="ChH1">Total:</h1>
+        <h2>${{orden.Total_Carrito|floatformat:1}}</h2>
     </div>
     <div class="Caja c4">
-        <h1>Comprar</h1>
+        <a href="#">Comprar</a>
     </div>
     <div class="Caja">
     </div>
     <div class="Caja">
-        <h1>Item</h1>
+        <h1 class="ChH1">Item:</h1>
     </div>
     <div class="Caja">
-        <h1>Precio</h1>
+        <h1 class="ChH1">Precio:</h1>
     </div>
     <div class="Caja">
-        <h1>Cantidad</h1>
+        <h1 class="ChH1">Cantidad:</h1>
     </div>
     <div class="Caja">
-        <h1>Total</h1>
+        <h1 class="ChH1">Total:</h1>
     </div>
     {% for Items in OrdenItems%}
 

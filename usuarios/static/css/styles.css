@@ -168,7 +168,8 @@ ul.nav-menu-right a.login:hover{
 
 .card{
     border: 2px solid #ffffff;
-    border-radius: 5px;
+    border-radius: 10px;
+    overflow: hidden;
     padding: auto;
     background-color: #666f7a9d;
 }
@@ -211,7 +212,8 @@ ul.nav-menu-right a.login:hover{
     grid-template-columns: 25% 25% repeat(3, 1fr);
     grid-template-rows: repeat(5, 1fr);
     width: 80%;
-    padding: 20px;
+    padding-top: 20px;
+    padding-bottom: 20px;
     margin: auto;
 }
 
@@ -219,6 +221,7 @@ ul.nav-menu-right a.login:hover{
     border: 2px solid rgba(208, 208, 252, 0.315);
     background-color: #666f7ab9;
     text-align: left;
+    font-size: 17px;
     padding: 5px;
 }
 
@@ -244,6 +247,21 @@ ul.nav-menu-right a.login:hover{
     grid-column: 3/6;
     text-align: right;
 }
+
+.c4 a{
+    background-color: #199319;
+    color: rgb(241, 241, 241);
+    padding: 8px 30px;
+    text-decoration: none;
+    margin-right: 10px;
+    margin-top: 15px;
+    display: inline-block;
+}
+
+.c4 a:hover{
+    filter: brightness(90%);
+}
+
 
 .row-image{
     width: 150px;
@@ -282,7 +300,7 @@ ul.nav-menu-right a.login:hover{
 
 /* Media */
 
-@media(max-width: 900px){
+@media(max-width: 700px){
     .search-conteiner input[type=text]{
         width: 130px;
     }
@@ -299,12 +317,18 @@ ul.nav-menu-right a.login:hover{
     }
 }
 @media(max-width: 500px){
+    .vender{
+        display: none;
+    }
     .news-cards{
         grid-template-columns: repeat(1, 1fr);
     }
+    .Grid-Cart{
+        width: 95%;
+    }
 }
 
-@media(max-width: 392px){
+@media(max-width: 400px){
     .search-conteiner input[type=text]{
         width: 80px;
     }
@@ -312,4 +336,5 @@ ul.nav-menu-right a.login:hover{
         width: 50px;
         height: 25px;
     }
+
 }

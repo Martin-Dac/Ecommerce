@@ -38,3 +38,19 @@ function UpdateUserOrder(productoId, accion){
         location.reload()
     })
 }
+
+window.addEventListener("resize", function (){
+    let actual_width = window.innerWidth;
+    let ChangeH1 = document.querySelectorAll('.ChH1');
+
+    for(i in ChangeH1){
+        if(actual_width < 500){
+            ChangeH1[i].outerHTML = '<h2 class="ChH1">' + ChangeH1[i].innerHTML + '<h2>';
+            console.log('test'); 
+        }
+        else{
+            ChangeH1[i].outerHTML = '<h1 class="ChH1">' + ChangeH1[i].innerHTML + '<h1>';
+            console.log('test2');
+        }
+    }
+});

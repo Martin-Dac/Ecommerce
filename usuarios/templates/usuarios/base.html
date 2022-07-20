@@ -50,7 +50,7 @@
                 </li>
                 <li>
                     {% if request.user.usuario.vendedor == True %}
-                    <a href="{% url 'vender' %}"><i class="fa-solid fa-tag fa-sm"
+                    <a href="{% url 'vender' %}" class="vender"><i class="fa-solid fa-tag fa-sm"
                             style="margin-right: 4px;"></i>Vender</a>
                     {% endif %}
                 </li>
@@ -69,8 +69,8 @@
                 <li class="dropdown">
                     <i class="fa-solid fa-user"></i>
                     <div class="dropdown-content">
-                        <p style="text-align: center;">Hola {{request.user}}</p>
-                        <a href="#"><i class="fa-solid fa-user" style="margin-right: 4px;"></i>Mi perfil</a>
+                        <p style="text-align: center;">Hola {{request.user.usuario.name}}</p>
+                        <a href="{% url 'clientes' %}"><i class="fa-solid fa-user" style="margin-right: 4px;"></i>Mi perfil</a>
                         {% if request.user.usuario.vendedor == True %}
                         <a href="{% url 'vender' %}"><i class="fa-solid fa-tag fa-sm"
                                 style="margin-right: 4px;"></i>Vender</a>

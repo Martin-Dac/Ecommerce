@@ -1,14 +1,14 @@
 import json
-from multiprocessing import context
+from unicodedata import category
 from django.shortcuts import redirect, render
 from django.contrib.auth import logout, login, authenticate
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseRedirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, user_passes_test
 
 
 from .models import Usuario, Producto, Orden, OrdenItem, direccion_envio
-from .forms import LoginForm, SingIn, ProductoForm
+from .forms import LoginForm, SingIn, ProductoForm, ActuUsuario
 from .decorators import unauthenticated_user
 
 def Venta_check(user):
@@ -34,11 +34,26 @@ def home(request):
     context = {'productos':productos, 'cartItems': cartItems}
     return render(request, 'usuarios/home.html', context)
 
-def productos(request):
-    return render(request, 'usuarios/productos.html')
+def productos(request, id=None):
+    producto = Producto.objects.get(id = id)
+    productos = Producto.objects.filter(name=producto.name)
+    context = {'productos': productos}
+    return render(request, 'usuarios/productos.html', context)
 
+@login_required(login_url='login')
 def clientes(request):
-   return render(request, 'usuarios/clientes.html')
+    cliente = request.user.usuario
+    form = ActuUsuario(instance=cliente)
+    productos = Producto.objects.filter(vendido_por = cliente)
+
+    if request.method == 'POST':
+        form = ActuUsuario(request.POST, instance=cliente)
+        if form.is_valid():
+            form.save()
+            return redirect('clientes')
+
+    context ={'form': form, 'productos':productos}
+    return render(request, 'usuarios/clientes.html', context)
 
 @login_required(login_url='login')
 def Carrito(request):
@@ -138,5 +153,11 @@ def Buscar_Productos(request):
         return render(request, 'usuarios/BuscarProductos.html', context)
     
     return render(request, 'usuarios/BuscarProductos.html')
+
+def deleteProducto(request, id):
+    producto = Producto.objects.get(id = id)
+    producto.delete()
+    return redirect(request.META.get('HTTP_REFERER', 'redirect_if_referer_not_found'))
+
 
 

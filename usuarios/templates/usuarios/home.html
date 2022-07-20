@@ -22,7 +22,10 @@
             <H3>{{producto.name}} </H3>
             <h4>Precio: ${{producto.precio|floatformat:2}}</h4>
             <button data-producto="{{producto.id}}" data-action="add" class="Hbtn Actu-Carrito">Comprar</button>
-            <button class="Hbtn">Ver producto</button>
+            <button class="Hbtn"><a href="{% url 'productos' producto.id %}">Ver producto</a></button>
+            {% if request.user.usuario == producto.vendido_por %}
+            <button class="Hbtn"><a href="{% url 'delete_producto' producto.id %}">Eliminar</a></button>
+            {% endif %}
         </div>
     </div>
     {% endfor %}

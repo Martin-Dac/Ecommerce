@@ -1,4 +1,5 @@
 from cgi import print_arguments
+import email
 from statistics import mode
 from django.db import models
 from django.contrib.auth.models import User
@@ -11,6 +12,7 @@ from django.db.models.signals import post_save
 class Usuario(models.Model):
     name = models.CharField(max_length=100, null=True)
     vendedor = models.BooleanField(default=False, null=True)
+    email = models.CharField(max_length=100, null=True)
     user = models.OneToOneField(User, on_delete=CASCADE, null=True)
     def __str__(self):
         return self.name
@@ -89,5 +91,6 @@ class direccion_envio(models.Model):
 def crear_Usuario(sender, instance, created, **kwargs):
 
     if created:
-        Usuario.objects.create(user = instance, name=instance.username)
+        Usuario.objects.create(user = instance, name=instance.username, email=instance.email)
+    
 

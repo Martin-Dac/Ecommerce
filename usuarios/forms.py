@@ -1,8 +1,8 @@
-from django.forms import ModelForm, EmailInput, TextInput, PasswordInput, CharField
+from django.forms import CheckboxInput, ModelForm, EmailInput, TextInput, PasswordInput, CharField
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
-from .models import Producto
+from .models import Producto, Usuario
 
 
 class LoginForm(ModelForm):
@@ -68,3 +68,24 @@ class ProductoForm(ModelForm):
     class Meta:
         model = Producto
         fields = ('name', 'precio', 'digital', 'imagen')
+        labels={
+            'name' : 'Nombre del Producto',
+            'digital' : 'Es digital?',
+        }
+
+class ActuUsuario(ModelForm):
+    class Meta:
+        model = Usuario
+        fields = '__all__'
+        exclude = ('user',)
+        widgets = {
+            'vendedor' : CheckboxInput(attrs={
+                'class' : 'form-control',
+            })
+        }
+        labels={
+            'name' : 'Nombre de usuario',
+            'vendedor' : 'Quiere ser vendedor?',
+        }
+    
+    field_order = ['name', 'email', 'vendedor']
