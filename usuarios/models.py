@@ -1,3 +1,4 @@
+from email.policy import default
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.deletion import CASCADE
@@ -20,7 +21,7 @@ class Producto(models.Model):
     digital = models.BooleanField(default=False, null=True)
     vendido_por = models.ForeignKey(Usuario, on_delete=CASCADE, null=True)
     imagen = models.ImageField(null=True, blank=True)
-    stock = models.IntegerField(max_digits=5)
+    stock = models.IntegerField(default=1)
 
     def __str__(self):
         return self.name

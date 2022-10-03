@@ -93,7 +93,7 @@ def updateItem(request):
     orden, creada = Orden.objects.get_or_create(cliente=cliente, completado=False)
     ordenItem, creada = OrdenItem.objects.get_or_create(orden = orden, producto = producto)
 
-    if accion == 'add':
+    if accion == 'add' and  ordenItem.Cantidad < producto.stock:
         ordenItem.Cantidad = (ordenItem.Cantidad + 1)
     elif accion == 'remove':
         ordenItem.Cantidad = (ordenItem.Cantidad - 1)
