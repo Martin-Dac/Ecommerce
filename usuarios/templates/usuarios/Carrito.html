@@ -9,7 +9,7 @@
 {% block content %}
 <div class="Grid-Cart">
     <div class="Caja c1">
-        <a href="{% url 'home' %}">Volver a la tienda</a>
+        <a href="{% url 'home' %}"><i class="fa-solid fa-arrow-left"></i> Volver a la tienda</a>
     </div>
     <div class="Caja">
         <h1 class="ChH1">Items:</h1>
@@ -20,7 +20,7 @@
         <h2>${{orden.Total_Carrito|floatformat:1}}</h2>
     </div>
     <div class="Caja c4">
-        <a href="#">Comprar</a>
+        <a href="{% url 'Checkout' %}">Comprar</a>
     </div>
     <div class="Caja">
     </div>

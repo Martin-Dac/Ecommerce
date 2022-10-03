@@ -1,8 +1,8 @@
-from django.forms import CheckboxInput, ModelForm, EmailInput, TextInput, PasswordInput, CharField
+from django.forms import CheckboxInput, ModelForm, EmailInput, TextInput, PasswordInput, CharField, NumberInput
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
-from .models import Producto, Usuario
+from .models import Producto, Usuario, direccion_envio
 
 
 class LoginForm(ModelForm):
@@ -55,7 +55,7 @@ class SingIn(UserCreationForm):
             'username' : TextInput(attrs={
                 'class' : 'form-control',
                 'max_length' : '100',
-                'placeholder' : 'Nombre de Usuario'
+                'placeholder' : 'Nombre de Usuario',
             })
         }
         labels={
@@ -68,6 +68,16 @@ class ProductoForm(ModelForm):
     class Meta:
         model = Producto
         fields = ('name', 'precio', 'digital', 'imagen')
+        widgets = {
+            'name': TextInput(attrs={
+                'class' : 'form-control',
+                'max_length' : '100',
+            }),
+            'precio' : NumberInput(attrs={
+                'class' : 'form-control',
+                'max_length' : '100',
+            })
+        }
         labels={
             'name' : 'Nombre del Producto',
             'digital' : 'Es digital?',

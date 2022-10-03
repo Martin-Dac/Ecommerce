@@ -1,12 +1,177 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
+{% extends 'usuarios/base.html'%}
+
+{% load static %}
+
+{% block title %}Checkout{% endblock %}
+<!-- FONT AWESOME-->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+
+{% block content %}
+
+<div class="Grid-Checkout-outer">
+    <div class="Box">
+        <h1>Hola {{request.user.usuario.name}}</h1>
+        <form id="form">
+            <div id="shipping-info">
+                <h2>Informacion de envio:</h2>
+                <table class="table1">
+                    <tr>
+                        <th><label for="provinciafield">Provincia</label></th>
+                        <th><label for="ciudadfield">Ciudad</label></th>
+                    </tr>
+                    <tr>
+                        <th><input type="text" name="provincia" id="provinciafield"></th>
+                        <th><input type="text" name="ciudad" id="ciudadfield"></th>
+                    </tr>
+                </table>
+                <table class="table2">
+                    <tr>
+                        <th><label for="direccionfield">Direccion</label></th>
+                        <th><label for="codpostalfield">Codigo Postal</label></th>
+                    </tr>
+                    <tr>
+                        <th><input type="text" name="direccion" id="direccionfield"></th>
+                        <th><input type="text" name="codpostal" id="codpostalfield"></th>
+                    </tr>
+                </table>
+            </div>
+            <input type="submit" value="Continuar" id="boton-form">
+        </form>
+    </div>
+    <div class="Box hidden" id="payment-info">
+        <small>paypal options</small>
+        <div id="paypal-button-container"></div>
+        <!-- <button id="make-payment">Pagar</button> -->
+    </div>
+    <div class="BoxRight">
+        <a href="{% url 'carrito' %}"><i class="fa-solid fa-arrow-left"></i> Volver al Carrito</a>
+        <h1>Resumen de la Orden</h1>
+        <div class="Grid-Orden">
+            {% for Items in OrdenItems%}
+            <div class="Box2">
+                {% if Items.producto.ImagenURL%}
+                <img class="row-image" src="{{Items.producto.ImagenURL}}" alt="Card 1">
+                {% else %}
+                <img class="row-image" src="{% static 'images/placeholder.png' %}" alt="">
+                {% endif %}
+            </div>
+            <div class="Box2">
+                <h4>{{Items.producto.name}}</h4>
+            </div>
+            <div class="Box2">
+                <h4>${{Items.producto.precio|floatformat:1}}</h4>
+            </div>
+            <div class="Box2">
+                <h4>x{{Items.Cantidad}} </h4>
+            </div>
+            {% endfor %}
+        </div>
+        <h1 class="ChH1">Items: {{orden.Items_Carrito}}</h1>
+        <h1 class="ChH1">Total: ${{orden.Total_Carrito|floatformat:1}}</h1>
+    </div>
+</div>
+
+<script src="https://www.paypal.com/sdk/js?client-id=AXY6mZe7L6p8l0e6KvXIuz-PY8dBTLXLs0S1wJ9S8CzgMC7_XZD2z4pPlqn4-13G4bmILPsBrPwR7jog&currency=USD"></script>
+
+<script>
+    var total = '{{orden.Total_Carrito}}'
+    // Render the PayPal button into #paypal-button-container
+    paypal.Buttons({
+
+        style:{
+            color: 'blue',
+            size: 'responsive',
+            shape: 'pill',
+        },
+        // Set up the transaction
+        createOrder: function(data, actions) {
+            return actions.order.create({
+                purchase_units: [{
+                    amount: {
+                        value:parseFloat(total).toFixed(2)
+                    }
+                }]
+            });
+        },
+
+        // Finalize the transaction
+        onApprove: function(data, actions) {
+            return actions.order.capture().then(function(orderData) {
+                // Successful capture! For demo purposes:
+                submitFormData()
+            });
+        }
+
+
+    }).render('#paypal-button-container');
+</script>
+
+<script type="text/javascript">
+    var shipping = '{{orden.shipping}}'
     
-</body>
-</html>
+
+
+    if (shipping == 'False') {
+        document.getElementById('shipping-info').innerHTML = ''
+        document.getElementById('boton-form').classList.add('hidden')
+        document.getElementById('payment-info').classList.remove('hidden')
+    }
+
+
+    var form = document.getElementById('form')
+
+    form.addEventListener('submit', function (e) {
+        e.preventDefault()
+        console.log('Form subida')
+        document.getElementById('boton-form').classList.add('hidden')
+        document.getElementById('payment-info').classList.remove('hidden')
+    })
+
+    // document.getElementById('make-payment').addEventListener('click', function (e) {
+    //     submitFormData()
+    // })
+
+    function submitFormData() {
+        console.log('Pago hecho')
+
+        var userFormData = {
+            'name': null,
+            'total': total,
+        }
+
+        var InfoEnvio = {
+            'provincia': null,
+            'ciudad': null,
+            'direccion': null,
+            'CodPostal': null,
+        }
+
+        if (shipping != 'False') {
+            InfoEnvio.provincia = form.provincia.value,
+            InfoEnvio.ciudad = form.ciudad.value,
+            InfoEnvio.direccion = form.direccion.value,
+            InfoEnvio.CodPostal = form.codpostal.value
+        }
+
+        var url = '/procesar_Orden/'
+
+        fetch(url, {
+            method: 'POST',
+            headers:{
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrftoken,
+        },
+            body: JSON.stringify({'form': userFormData, 'shipping': InfoEnvio })
+        })
+
+        .then((response) => response.json())
+
+        .then((data) => {
+            console.log('Success:', data);
+            alert('Tansaccion hecha');
+            window.location.href = "{% url 'home' %}"
+        })
+    }
+</script>
+
+{% endblock %}

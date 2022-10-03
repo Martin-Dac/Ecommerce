@@ -17,16 +17,26 @@
             {% endfor %}
         </div>
     </form>
+    <ul>
+        <h2>Como deber ser la contraseña</h2>
+        <li>Debe contener 8 caracteres.</li>
+        <li>Debe contener minimo un numero.</li>
+        <li>Debe contener minimo una mayuscula.</li>
+        <li>Debe contener minimo una minuscula.</li>
+        <li>Debe contener minimo un carater especial.</li>
+    </ul>
     <form method="POST">
         {% csrf_token %}
         <div class="LogCard">
             <h2>Crea una cuenta</h2>
-            {% for SingIn in FormSingIn %}
-            <label>{{SingIn.label}}</label>
-            {{SingIn}}
-            {% endfor %}
-            {{FormSingIn.errors}}
-            <button type="submit" name="submit" value="SingIn" class="Hbtn">Ingreso</button>
+            <ul>
+                {% for SingIn in FormSingIn %}
+                <li><label>{{SingIn.label}}</label></li>
+                <li>{{SingIn}}</li>
+                {% endfor %}
+                {{FormSingIn.errors}}
+                <button type="submit" name="submit" value="SingIn" class="Hbtn">Ingreso</button>
+            </ul>    
         </div>
     </form>
 </div>

@@ -1,6 +1,3 @@
-from cgi import print_arguments
-import email
-from statistics import mode
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.deletion import CASCADE
@@ -23,6 +20,7 @@ class Producto(models.Model):
     digital = models.BooleanField(default=False, null=True)
     vendido_por = models.ForeignKey(Usuario, on_delete=CASCADE, null=True)
     imagen = models.ImageField(null=True, blank=True)
+    stock = models.IntegerField(max_digits=5)
 
     def __str__(self):
         return self.name
@@ -44,6 +42,16 @@ class Orden(models.Model):
     def __str__(self):
         return str(self.id)
     
+    @property
+    def shipping(self):
+        shipping = False
+        ordenitems = self.ordenitem_set.all()
+        for i in ordenitems:
+            if i.producto.digital == False:
+                shipping = True
+        return shipping
+
+
     @property
     def Items_Carrito(self):
         ordenitems = self.ordenitem_set.all()
@@ -82,7 +90,7 @@ class direccion_envio(models.Model):
     Fecha_add = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.direccion
+        return self.orden
 
 
 #Cuando sea crea user tambien se crea la clase Usuario

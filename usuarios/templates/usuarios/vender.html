@@ -1,14 +1,21 @@
 {% extends 'usuarios/base.html'%}
-
+{% load static %}
 {% block title %}Vender producto{% endblock %}
 
 {% block content %}
 
-<H2>Crear venta</H2>
-<form method="post" enctype="multipart/form-data">
+<form method="post" enctype="multipart/form-data"> 
+    <H2>Crear venta</H2>
     {% csrf_token %}
-    {{form.as_p}}
+    <ul>
+    {% for vender in form %}
+    <div class="form-group">
+        <li><label>{{vender.label}}</label></li>
+        <li>{{vender}}</li>
+    </div>
+    {% endfor %}
     <input type="submit" value="enviar">
+    </ul>
 </form>
 
 {% endblock %}

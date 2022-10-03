@@ -1,3 +1,4 @@
+import imp
 import json
 from unicodedata import category
 from django.shortcuts import redirect, render
@@ -5,6 +6,7 @@ from django.contrib.auth import logout, login, authenticate
 from django.http import JsonResponse, HttpResponseRedirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, user_passes_test
+import datetime
 
 
 from .models import Usuario, Producto, Orden, OrdenItem, direccion_envio
@@ -27,7 +29,7 @@ def home(request):
         orden, creada = Orden.objects.get_or_create(cliente=cliente, completado=False)
         cartItems = orden.Items_Carrito
     else:
-        orden = {'Items_Carrito':0, 'Total_Carrito':0}
+        orden = {'Items_Carrito':0, 'Total_Carrito':0, 'shipping':False}
         cartItems = orden['Total_Carrito']
 
     productos = Producto.objects.all()
@@ -37,7 +39,9 @@ def home(request):
 def productos(request, id=None):
     producto = Producto.objects.get(id = id)
     productos = Producto.objects.filter(name=producto.name)
-    context = {'productos': productos}
+    orden, creada = Orden.objects.get_or_create(cliente=request.user.usuario, completado=False)
+    cartItems = orden.Items_Carrito
+    context = {'productos': productos, 'cartItems': cartItems}
     return render(request, 'usuarios/productos.html', context)
 
 @login_required(login_url='login')
@@ -45,6 +49,8 @@ def clientes(request):
     cliente = request.user.usuario
     form = ActuUsuario(instance=cliente)
     productos = Producto.objects.filter(vendido_por = cliente)
+    orden, creada = Orden.objects.get_or_create(cliente=cliente, completado=False)
+    cartItems = orden.Items_Carrito
 
     if request.method == 'POST':
         form = ActuUsuario(request.POST, instance=cliente)
@@ -52,7 +58,7 @@ def clientes(request):
             form.save()
             return redirect('clientes')
 
-    context ={'form': form, 'productos':productos}
+    context ={'form': form, 'productos':productos, 'cartItems': cartItems}
     return render(request, 'usuarios/clientes.html', context)
 
 @login_required(login_url='login')
@@ -64,7 +70,7 @@ def Carrito(request):
         cartItems = orden.Items_Carrito
     else:
         OrdenItems = []
-        orden = {'Items_Carrito':0, 'Total_Carrito':0}
+        orden = {'Items_Carrito':0, 'Total_Carrito':0, 'shipping':False}
         cartItems = orden['Total_Carrito']
 
     context = {'OrdenItems':OrdenItems, 'orden':orden, 'cartItems': cartItems}
@@ -132,6 +138,8 @@ def Login(request):
 @user_passes_test(Venta_check, login_url='home')
 def Vender(request):
     form = ProductoForm
+    orden, creada = Orden.objects.get_or_create(cliente=request.user.usuario, completado=False)
+    cartItems = orden.Items_Carrito
 
     if request.method == "POST":
         form = ProductoForm(request.POST, request.FILES)
@@ -142,7 +150,7 @@ def Vender(request):
             form.save()
             return redirect('home')
 
-    context = {'form': form} 
+    context = {'form': form, 'cartItems': cartItems} 
     return render(request, 'usuarios/vender.html', context)
 
 def Buscar_Productos(request):
@@ -159,5 +167,46 @@ def deleteProducto(request, id):
     producto.delete()
     return redirect(request.META.get('HTTP_REFERER', 'redirect_if_referer_not_found'))
 
+@login_required(login_url='login')
+def checkout(request):
 
+    if request.user.is_authenticated:
+        cliente = request.user.usuario
+        orden, creada = Orden.objects.get_or_create(cliente=cliente, completado=False)
+        OrdenItems = orden.ordenitem_set.all()
+        cartItems = orden.Items_Carrito
+    
+    else:
+        OrdenItems = []
+        orden = {'Items_Carrito':0, 'Total_Carrito':0, 'shipping':False}
+        cartItems = orden['Total_Carrito']
+
+    context = {'OrdenItems':OrdenItems, 'orden':orden, 'cartItems': cartItems}
+    return render(request, 'usuarios/Checkout.html', context)
+
+def ProcesarOrden(request):
+    data = json.loads(request.body)
+    transaccion_ID = datetime.datetime.now().timestamp()
+
+    if request.user.is_authenticated:
+        cliente = request.user.usuario
+        orden, creada = Orden.objects.get_or_create(cliente=cliente, completado=False)
+        total = float(data['form']['total'])
+        orden.ID_transaccion = transaccion_ID
+
+        if total == orden.Total_Carrito:
+            orden.completado = True
+        orden.save()
+
+        if orden.shipping == True:
+            direccion_envio.objects.create(
+                cliente= cliente,
+                orden= orden,
+                direccion= data['shipping']['direccion'],
+                ciudad= data['shipping']['ciudad'],
+                provincia= data['shipping']['provincia'],
+                cod_postal= data['shipping']['CodPostal'],
+            )
+
+    return JsonResponse('pago completo', safe=False)
 

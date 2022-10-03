@@ -1,4 +1,3 @@
-import imp
 from django.urls import path
 from . import views
 
@@ -11,7 +10,9 @@ urlpatterns = [
     path('login/', views.Login, name="login"),
     path('vender/', views.Vender, name="vender"),
     path('Buscar_Producto/', views.Buscar_Productos, name="Buscar_Productos"),
+    path('Checkout/',views.checkout, name="Checkout"),
 
     path('update_Item/', views.updateItem, name="update_Item"),
+    path('procesar_Orden/', views.ProcesarOrden, name="procesar_Orden"),
     path('deleteProducto/<int:id>', views.deleteProducto, name="delete_producto")
 ]

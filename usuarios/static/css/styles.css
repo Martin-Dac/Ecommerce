@@ -3,6 +3,10 @@
     margin: 0;
     padding: 0;
 }
+ul{
+    text-align: center;
+    list-style: inside;
+}
 
 body {
     background: #000000;
@@ -26,6 +30,9 @@ a{
     margin: auto;
 }
 
+.hidden{
+    display: none;
+}
 
 
 /* NAV */
@@ -37,8 +44,9 @@ a{
     align-items: center;
     height: 65px;
     padding: 20px 0px; 
-    background: #2f3338; 
-    opacity: .86;
+    background: #2f3338;
+    position: sticky; 
+    top: 0;
 }
 
 .nav-main ul{
@@ -219,7 +227,7 @@ ul.nav-menu-right a.login:hover{
 
 .Caja{
     border: 2px solid rgba(208, 208, 252, 0.315);
-    background-color: #666f7ab9;
+    background-color: #666f7ad8;
     text-align: left;
     font-size: 17px;
     padding: 5px;
@@ -230,7 +238,9 @@ ul.nav-menu-right a.login:hover{
 }
 
 .c1 a{
-    background-color: #199319;
+    background-color: #213621e5;
+    border: 1px solid black;
+    border-radius: 6px;
     color: rgb(241, 241, 241);
     padding: 8px 30px;
     text-decoration: none;
@@ -249,7 +259,9 @@ ul.nav-menu-right a.login:hover{
 }
 
 .c4 a{
-    background-color: #199319;
+    background-color: #213621e5;
+    border: 1px solid black;
+    border-radius: 6px;
     color: rgb(241, 241, 241);
     padding: 8px 30px;
     text-decoration: none;
@@ -272,12 +284,22 @@ ul.nav-menu-right a.login:hover{
 .flechita{
     color: #000000;
 }
+
+.Caja button{
+    background:  #666f7ad8;
+    cursor: pointer;
+}
+
+.Caja button:hover{
+    filter: brightness(90%);
+}
+
 /* Login */
 
 .Login-form{
     font-size: 17px;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-evenly;
     align-items: center;
     margin-top: 20px;
     padding: 20px 0px; 
@@ -287,7 +309,7 @@ ul.nav-menu-right a.login:hover{
     border: 2px solid #ffffff;
     background-color: #666f7ab9;
     width: 220px;
-    height: 280px;
+    height: 300px;
     text-align: center;
     float: left;
     margin: 5px;
@@ -298,6 +320,105 @@ ul.nav-menu-right a.login:hover{
     margin-bottom: 5px;
 }
 
+/* CheckOut */
+
+.Grid-Checkout-outer{
+    display: grid;
+    grid-template-columns: 60% 40%;
+    grid-template-rows: auto auto;
+    width: 80%;
+    gap: 30px;
+    padding-top: 20px ;
+    margin: auto;
+}
+
+.Box{
+    border: 2px solid rgb(255, 255, 255);
+    background-color: #666f7ab9;
+    border-radius: 6px;
+    text-align: left;
+    font-size: 17px;
+    padding: 5px;
+}
+
+.BoxRight{
+    border: 2px solid rgb(255, 255, 255);
+    background-color: #666f7ab9;
+    border-radius: 6px;
+    text-align: left;
+    font-size: 17px;
+    padding: 5px;
+    padding-left: 10px;
+    grid-area: 1 / 2 / 3 / 3;
+}
+
+.BoxRight a{
+    background-color: #213621e5;
+    border: 1px solid black;
+    border-radius: 6px;
+    color: rgb(241, 241, 241);
+    padding: 8px 30px;
+    text-decoration: none;
+    margin-right: 10px;
+    margin-top: 15px;
+    display: inline-block;
+}
+
+.Grid-Orden{
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+    margin: 10px;
+    background-color: none;
+}
+
+.Box2{
+    border-top: 2px solid rgba(208, 208, 252, 0.315);
+    text-align: center;
+    font-size: 17px;
+    padding: 5px;
+}
+
+.Box .table1{
+    table-layout: fixed;
+    width: 100%;
+    padding-left: 10px;
+}
+
+.Box .table2{
+    table-layout: fixed;
+    width: 100%;
+    padding-left: 10px;
+}
+
+.Box input[type="text"]{
+    display: inline-block;
+    width: 90%;
+    height: 40px;
+    padding: 5px;
+    border: 3px solid rgb(136, 136, 136);
+    -webkit-transition: 0.5s;
+    transition: 0.5s;
+    outline: none;
+}
+
+.Box input[type="text"]:focus{
+    border: 3px solid rgb(97, 5, 5);
+}
+
+.Box input[type="submit"]{
+    width: 100%;
+    background-color: #0fa16c;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+    height: 40px;
+    margin-top: 20px;
+}
+
+.Box input[type="submit"]:hover{
+    filter: brightness(90%);
+}
 /* Media */
 
 @media(max-width: 700px){
