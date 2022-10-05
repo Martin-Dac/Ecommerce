@@ -67,7 +67,7 @@ class ProductoForm(ModelForm):
 
     class Meta:
         model = Producto
-        fields = ('name', 'precio', 'digital', 'imagen')
+        fields = ('name', 'precio', 'digital', 'imagen', 'stock')
         widgets = {
             'name': TextInput(attrs={
                 'class' : 'form-control',
@@ -81,6 +81,7 @@ class ProductoForm(ModelForm):
         labels={
             'name' : 'Nombre del Producto',
             'digital' : 'Es digital?',
+            'stock' : 'Cuanto stock tenes?'
         }
 
 class ActuUsuario(ModelForm):

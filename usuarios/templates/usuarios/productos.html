@@ -4,7 +4,6 @@
 
 {% block content %}
 
-<H2>TEST</H2>
 <div class="news-cards">
     {% for producto in productos %}
     <div class="card">
@@ -17,10 +16,6 @@
             <H3>{{producto.name}} </H3>
             <h4>Precio: ${{producto.precio|floatformat:2}}</h4>
             <button data-producto="{{producto.id}}" data-action="add" class="Hbtn Actu-Carrito">Comprar</button>
-            <button class="Hbtn"><a href="{% url 'productos' producto.id %}">Ver producto</a></button>
-            {% if request.user.usuario == producto.vendido_por %}
-            <a href="{% url 'delete_producto' producto.id %}">Eliminar</a>
-            {% endif %}
         </div>
     </div>
     {% endfor %}
