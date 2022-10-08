@@ -192,10 +192,15 @@ def ProcesarOrden(request):
         cliente = request.user.usuario
         orden, creada = Orden.objects.get_or_create(cliente=cliente, completado=False)
         total = float(data['form']['total'])
+        OrdenItems = orden.ordenitem_set.all()
         orden.ID_transaccion = transaccion_ID
 
         if total == orden.Total_Carrito:
             orden.completado = True
+            for items in OrdenItems:
+                ProductoStock = Producto.objects.get(name=items.producto)
+                ProductoStock.stock = ProductoStock.stock - items.Cantidad
+                ProductoStock.save()
         orden.save()
 
         if orden.shipping == True:
