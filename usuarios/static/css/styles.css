@@ -95,6 +95,7 @@ ul.nav-menu-right a.login{
     background-color: #199319;
     color: rgb(241, 241, 241);
     padding: 8px 30px;
+    border-radius: 6px;
     text-decoration: none;
     margin-right: 10px;
 }

@@ -39,8 +39,13 @@ def home(request):
 def productos(request, id=None):
     producto = Producto.objects.get(id = id)
     productos = Producto.objects.filter(name=producto.name)
-    orden, creada = Orden.objects.get_or_create(cliente=request.user.usuario, completado=False)
-    cartItems = orden.Items_Carrito
+    if request.user.is_authenticated:
+        orden, creada = Orden.objects.get_or_create(cliente=request.user.usuario, completado=False)
+        cartItems = orden.Items_Carrito
+    else:
+        orden = {'Items_Carrito':0, 'Total_Carrito':0, 'shipping':False}
+        cartItems = orden['Total_Carrito']
+
     context = {'productos': productos, 'cartItems': cartItems}
     return render(request, 'usuarios/productos.html', context)
 
@@ -214,4 +219,20 @@ def ProcesarOrden(request):
             )
 
     return JsonResponse('pago completo', safe=False)
+
+def CompraProducto(request):
+    data = json.loads(request.body)
+
+    cliente = request.user.usuario
+    producto = Producto.objects.get(id=data['form']['producto'])
+    orden, creada = Orden.objects.get_or_create(cliente=cliente, completado=False)
+    ordenItem, creada = OrdenItem.objects.get_or_create(orden = orden, producto = producto)
+    cantidad = int(data['form']['Cantidad'])
+
+    if cantidad >= 1 and cantidad <= producto.stock - ordenItem.Cantidad:
+        ordenItem.Cantidad = (ordenItem.Cantidad + cantidad)
+
+    ordenItem.save()
+    print(producto)
+    return JsonResponse('Producto en el carrito', safe=False)
 
