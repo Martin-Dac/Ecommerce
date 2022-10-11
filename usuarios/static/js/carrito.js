@@ -44,7 +44,7 @@ window.addEventListener("resize", function (){
     let ChangeH1 = document.querySelectorAll('.ChH1');
 
     for(i in ChangeH1){
-        if(actual_width < 500){
+        if(actual_width < 550){
             ChangeH1[i].outerHTML = '<h2 class="ChH1">' + ChangeH1[i].innerHTML + '<h2>';
             console.log('test'); 
         }

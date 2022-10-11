@@ -10,7 +10,9 @@
     <input type="submit" value="enviar">
 </form>
 <br>
+{% if request.user.usuario.vendedor == True %}
 <h1>Mis productos</h1>
+{% endif %}
 <div class="news-cards">
     {% for producto in productos%}
     <div class="card">
@@ -22,7 +24,8 @@
         <div class="cardItems">
             <H3>{{producto.name}} </H3>
             <h4>Precio: ${{producto.precio|floatformat:2}}</h4>
-            <button data-producto="{{producto.id}}" data-action="add" class="Hbtn">Comprar</button>
+            <button class="Hbtn"><a href="{% url 'productos' producto.id %}">Ver producto</a></button>
+            <button class="Hbtn"><a href="{% url 'ActuProducto' producto.id %}">Editar</a></button>
             <button class="Hbtn"><a href="{% url 'delete_producto' producto.id %}">Eliminar</a></button>
         </div>
     </div>

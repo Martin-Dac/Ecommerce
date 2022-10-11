@@ -7,17 +7,19 @@
 
 <center><h1>Buscaste:</h1></center>
 <div class="news-cards">
-    {% for producto in productos %}
+    {% for producto in productos%}
     <div class="card">
-        {% if producto.ImagenURL %}
-        <img src="{{producto.ImagenURL}}" alt="Card 1">
+        {% if producto.ImagenURL%}
+        <a href="{% url 'productos' producto.id %}"><img src="{{producto.ImagenURL}}" alt="Card 1"></a>
         {% else %}
-        <img src="{% static 'images/placeholder.png' %}" alt="">
+        <a href="{% url 'productos' producto.id %}"><img src="{% static 'images/placeholder.png' %}" alt=""></a>
         {% endif %}
-        <H3>{{producto.name}} </H3>
-        <h4>Precio: ${{producto.precio|floatformat:2}}</h4>
-        <button data-producto="{{producto.id}}" data-action="add" class="Hbtn Actu-Carrito">Comprar</button>
-        <button class="Hbtn">Ver producto</button>
+        <div class="cardItems">
+            <H3>{{producto.name}} </H3>
+            <h4>Precio: ${{producto.precio|floatformat:2}}</h4>
+            <button data-producto="{{producto.id}}" data-action="add" class="Hbtn Actu-Carrito">Comprar</button>
+            <button class="Hbtn"><a href="{% url 'productos' producto.id %}">Ver producto</a></button>
+        </div>
     </div>
     {% endfor %}
 </div>

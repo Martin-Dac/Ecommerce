@@ -11,6 +11,7 @@ urlpatterns = [
     path('vender/', views.Vender, name="vender"),
     path('Buscar_Producto/', views.Buscar_Productos, name="Buscar_Productos"),
     path('Checkout/',views.checkout, name="Checkout"),
+    path('ActuProducto/<int:id>', views.ActuProducto, name="ActuProducto"),
 
     path('update_Item/', views.updateItem, name="update_Item"),
     path('Compra_Producto/', views.CompraProducto, name="Compra_Producto"),

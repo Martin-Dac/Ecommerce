@@ -91,7 +91,7 @@ class direccion_envio(models.Model):
     Fecha_add = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.orden
+        return self.direccion
 
 
 #Cuando sea crea user tambien se crea la clase Usuario

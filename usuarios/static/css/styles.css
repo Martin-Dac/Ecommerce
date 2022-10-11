@@ -469,6 +469,12 @@ ul.nav-menu-right a.login:hover{
     .news-cards{
         grid-template-columns: repeat(1, 1fr);
     }
+    .Grid-Checkout-outer{
+        grid-template-columns: repeat(1, 1fr);
+    }
+    .BoxRight{
+        grid-area: auto;
+    }
     .Grid-Cart{
         width: 95%;
     }

@@ -162,7 +162,9 @@ def Buscar_Productos(request):
     if request.method == 'POST':
         buscar = request.POST['search']
         productos = Producto.objects.filter(name__contains=buscar)
-        context = {'Buscar': buscar, 'productos':productos}
+        orden, creada = Orden.objects.get_or_create(cliente=request.user.usuario, completado=False)
+        cartItems = orden.Items_Carrito
+        context = {'Buscar': buscar, 'productos':productos, 'cartItems': cartItems}
         return render(request, 'usuarios/BuscarProductos.html', context)
     
     return render(request, 'usuarios/BuscarProductos.html')
@@ -175,16 +177,17 @@ def deleteProducto(request, id):
 @login_required(login_url='login')
 def checkout(request):
 
-    if request.user.is_authenticated:
-        cliente = request.user.usuario
-        orden, creada = Orden.objects.get_or_create(cliente=cliente, completado=False)
-        OrdenItems = orden.ordenitem_set.all()
-        cartItems = orden.Items_Carrito
+    cliente = request.user.usuario
+    orden, creada = Orden.objects.get_or_create(cliente=cliente, completado=False)
+    OrdenItems = orden.ordenitem_set.all()
     
-    else:
-        OrdenItems = []
-        orden = {'Items_Carrito':0, 'Total_Carrito':0, 'shipping':False}
-        cartItems = orden['Total_Carrito']
+    for items in OrdenItems:
+        ProductoStock = Producto.objects.get(name=items.producto)
+        if ProductoStock.stock < items.Cantidad:
+            items.Cantidad = ProductoStock.stock
+            items.save()
+    
+    cartItems = orden.Items_Carrito
 
     context = {'OrdenItems':OrdenItems, 'orden':orden, 'cartItems': cartItems}
     return render(request, 'usuarios/Checkout.html', context)
@@ -204,10 +207,15 @@ def ProcesarOrden(request):
             orden.completado = True
             for items in OrdenItems:
                 ProductoStock = Producto.objects.get(name=items.producto)
-                ProductoStock.stock = ProductoStock.stock - items.Cantidad
-                ProductoStock.save()
+                if ProductoStock.stock >= items.Cantidad:
+                    ProductoStock.stock = ProductoStock.stock - items.Cantidad
+                    ProductoStock.save()
+                else:
+                    orden.completado = False
+                    break
         orden.save()
 
+        print(orden)
         if orden.shipping == True:
             direccion_envio.objects.create(
                 cliente= cliente,
@@ -233,6 +241,21 @@ def CompraProducto(request):
         ordenItem.Cantidad = (ordenItem.Cantidad + cantidad)
 
     ordenItem.save()
-    print(producto)
     return JsonResponse('Producto en el carrito', safe=False)
 
+@login_required(login_url='login')
+def ActuProducto(request, id=None):
+    cliente = request.user.usuario
+    producto = Producto.objects.get(id = id)
+    orden, creada = Orden.objects.get_or_create(cliente=cliente, completado=False)
+    cartItems = orden.Items_Carrito
+    form = ProductoForm(instance=producto)
+
+    if request.method == 'POST':
+        form = ProductoForm(request.POST, instance=producto)
+        if form.is_valid():
+            form.save()
+            return redirect('clientes')
+
+    context ={'form': form, 'productos':productos, 'cartItems': cartItems}
+    return render(request, 'usuarios/productosEdit.html', context)
