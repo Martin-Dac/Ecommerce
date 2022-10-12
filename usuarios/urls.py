@@ -12,6 +12,7 @@ urlpatterns = [
     path('Buscar_Producto/', views.Buscar_Productos, name="Buscar_Productos"),
     path('Checkout/',views.checkout, name="Checkout"),
     path('ActuProducto/<int:id>', views.ActuProducto, name="ActuProducto"),
+    path('OrdenCompleta/', views.OrdenesCompletas, name="OrdenCompleta"),
 
     path('update_Item/', views.updateItem, name="update_Item"),
     path('Compra_Producto/', views.CompraProducto, name="Compra_Producto"),

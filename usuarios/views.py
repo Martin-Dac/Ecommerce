@@ -1,6 +1,4 @@
-import imp
 import json
-from unicodedata import category
 from django.shortcuts import redirect, render
 from django.contrib.auth import logout, login, authenticate
 from django.http import JsonResponse, HttpResponseRedirect
@@ -17,6 +15,15 @@ def Venta_check(user):
     if user.is_authenticated:
         a = Usuario.objects.get(user=user)
         return a.vendedor
+    else:
+        return False
+
+def Carrito_check(user):
+    cliente = Usuario.objects.get(user = user)
+    orden = Orden.objects.get(cliente=cliente, completado=False)
+    Ordenitems = orden.ordenitem_set.all()
+    if Ordenitems.exists():
+        return True
     else:
         return False
 
@@ -175,6 +182,7 @@ def deleteProducto(request, id):
     return redirect(request.META.get('HTTP_REFERER', 'redirect_if_referer_not_found'))
 
 @login_required(login_url='login')
+@user_passes_test(Carrito_check, login_url='home')
 def checkout(request):
 
     cliente = request.user.usuario
@@ -259,3 +267,13 @@ def ActuProducto(request, id=None):
 
     context ={'form': form, 'productos':productos, 'cartItems': cartItems}
     return render(request, 'usuarios/productosEdit.html', context)
+
+@login_required(login_url='login')
+def OrdenesCompletas(request):
+    cliente = request.user.usuario
+    ordenCompleta = Orden.objects.filter(cliente=cliente, completado=True)
+    orden, creada = Orden.objects.get_or_create(cliente=cliente, completado=False)
+    cartItems = orden.Items_Carrito
+
+    context ={'OrdenCompleta': ordenCompleta, 'cartItems': cartItems}
+    return render(request, 'usuarios/OrdenesCompletas.html', context)
