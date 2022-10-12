@@ -9,21 +9,12 @@ import datetime
 
 from .models import Usuario, Producto, Orden, OrdenItem, direccion_envio
 from .forms import LoginForm, SingIn, ProductoForm, ActuUsuario
-from .decorators import unauthenticated_user
+from .decorators import unauthenticated_user, Carrito_check
 
 def Venta_check(user):
     if user.is_authenticated:
         a = Usuario.objects.get(user=user)
         return a.vendedor
-    else:
-        return False
-
-def Carrito_check(user):
-    cliente = Usuario.objects.get(user = user)
-    orden = Orden.objects.get(cliente=cliente, completado=False)
-    Ordenitems = orden.ordenitem_set.all()
-    if Ordenitems.exists():
-        return True
     else:
         return False
 
@@ -182,7 +173,7 @@ def deleteProducto(request, id):
     return redirect(request.META.get('HTTP_REFERER', 'redirect_if_referer_not_found'))
 
 @login_required(login_url='login')
-@user_passes_test(Carrito_check, login_url='home')
+@Carrito_check
 def checkout(request):
 
     cliente = request.user.usuario
