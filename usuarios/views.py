@@ -203,6 +203,8 @@ def ProcesarOrden(request):
         orden.ID_transaccion = transaccion_ID
 
         if total == orden.Total_Carrito:
+            orden.TotalFinal = orden.Total_Carrito
+            orden.ItemsFinal = orden.Items_Carrito
             orden.completado = True
             for items in OrdenItems:
                 ProductoStock = Producto.objects.get(name=items.producto)

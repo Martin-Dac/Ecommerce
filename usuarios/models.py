@@ -22,6 +22,7 @@ class Producto(models.Model):
     vendido_por = models.ForeignKey(Usuario, on_delete=CASCADE, null=True)
     imagen = models.ImageField(null=True, blank=True)
     stock = models.IntegerField(default=1)
+    descripcion = models.TextField(null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -39,6 +40,8 @@ class Orden(models.Model):
     Fecha_Orden = models.DateTimeField(auto_now_add=True)
     completado = models.BooleanField(default=False, null=True)
     ID_transaccion = models.CharField(max_length=100, null=True)
+    TotalFinal = models.DecimalField(max_digits=13, decimal_places=2, blank=True, null=True)
+    ItemsFinal = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
         return str(self.id)
@@ -55,21 +58,27 @@ class Orden(models.Model):
 
     @property
     def Items_Carrito(self):
-        ordenitems = self.ordenitem_set.all()
-        total = sum([item.Cantidad for item in ordenitems])
-        return total
+        if self.completado != True:
+            ordenitems = self.ordenitem_set.all()
+            total = sum([item.Cantidad for item in ordenitems])
+            return total
+        else:
+            return False
 
     @property
     def Total_Carrito(self):
-        ordenitems = self.ordenitem_set.all()
-        total = 0
-        for items in ordenitems:
-            total2 = items.total_orden()
-            total = total + total2 
-        return total
+        if self.completado != True:
+            ordenitems = self.ordenitem_set.all()
+            total = 0
+            for items in ordenitems:
+                total2 = items.total_orden()
+                total = total + total2 
+            return total
+        else:
+            return False
 
 class OrdenItem(models.Model):
-    producto = models.ForeignKey(Producto, on_delete=models.SET_NULL, blank=True, null=True)
+    producto = models.ForeignKey(Producto, on_delete=models.CASCADE, blank=True, null=True)
     orden = models.ForeignKey(Orden, on_delete=models.SET_NULL, blank=True, null=True)
     Cantidad = models.IntegerField(default=0, null=True, blank=True)
     Fecha_add = models.DateTimeField(auto_now_add=True)

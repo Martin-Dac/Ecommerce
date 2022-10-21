@@ -10,7 +10,8 @@
     <div class="card">
         <div class="cardItems">
             <H3>Numero de Transaccion: {{orden.ID_transaccion}} </H3>
-            <h4>Precio: ${{orden.Total_Carrito|floatformat:1}}</h4>
+            <h4>Precio: ${{orden.TotalFinal|floatformat:1}}</h4>
+            <h4>Items: {{orden.ItemsFinal}}</h4>
             <h4>Fecha: {{orden.Fecha_Orden|date:"d/n/Y  h:i a"}}</h4>
         </div>
     </div>
