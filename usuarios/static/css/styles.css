@@ -432,7 +432,14 @@ ul.nav-menu-right a.login:hover{
     margin: 20px auto auto;
     border-radius: 10px;
     padding: 20px 0px 20px;
-    gap: 20%;
+    column-gap: 20%;
+    row-gap: 40px;
+}
+
+
+.ProductoLeft{
+    margin-left: 10px;
+    font-size: 20px;
 }
 
 .ProductoLeft img{
@@ -441,7 +448,7 @@ ul.nav-menu-right a.login:hover{
 }
 
 .ProductoRight{
-    font-size: 17px;
+    font-size: 25px;
 }
 
 /* Media */

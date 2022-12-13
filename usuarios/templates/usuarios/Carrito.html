@@ -17,7 +17,7 @@
     </div> 
     <div class="Caja">
         <h1 class="ChH1">Total:</h1>
-        <h2>${{orden.Total_Carrito|floatformat:1}}</h2>
+        <h2>USD${{orden.Total_Carrito|floatformat:1}}</h2>
     </div>
     <div class="Caja c4">
         <a href="{% url 'Checkout' %}">Comprar</a>
@@ -49,7 +49,7 @@
         <h4>{{Items.producto.name}}</h4>
     </div>
     <div class="Caja">
-        <h4>${{Items.producto.precio|floatformat:1}}</h4>
+        <h4>USD${{Items.producto.precio|floatformat:1}}</h4>
     </div>
     <div class="Caja">
         <h4>{{Items.Cantidad}} </h4>
@@ -57,7 +57,7 @@
         <button data-producto="{{Items.producto.id}}" data-action="remove" class="flechita Actu-Carrito"><i class="fa-solid fa-arrow-down"></i></button>
     </div>
     <div class="Caja">
-        <h4>${{Items.total_orden|floatformat:1}} </h4>
+        <h4>USD${{Items.total_orden|floatformat:1}} </h4>
     </div>
 
 

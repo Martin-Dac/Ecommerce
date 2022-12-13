@@ -160,8 +160,12 @@ def Buscar_Productos(request):
     if request.method == 'POST':
         buscar = request.POST['search']
         productos = Producto.objects.filter(name__contains=buscar)
-        orden, creada = Orden.objects.get_or_create(cliente=request.user.usuario, completado=False)
-        cartItems = orden.Items_Carrito
+        if request.user.is_authenticated:
+            orden, creada = Orden.objects.get_or_create(cliente=request.user.usuario, completado=False)
+            cartItems = orden.Items_Carrito
+        else:
+            orden = {'Items_Carrito':0, 'Total_Carrito':0, 'shipping':False}
+            cartItems = orden['Total_Carrito']
         context = {'Buscar': buscar, 'productos':productos, 'cartItems': cartItems}
         return render(request, 'usuarios/BuscarProductos.html', context)
     

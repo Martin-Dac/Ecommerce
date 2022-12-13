@@ -23,7 +23,7 @@
         {% endif %}
         <div class="cardItems">
             <H3>{{producto.name}} </H3>
-            <h4>Precio: ${{producto.precio|floatformat:2}}</h4>
+            <h4>Precio: USD${{producto.precio|floatformat:2}}</h4>
             <button class="Hbtn"><a href="{% url 'productos' producto.id %}">Ver producto</a></button>
             <button class="Hbtn"><a href="{% url 'ActuProducto' producto.id %}">Editar</a></button>
             <button class="Hbtn"><a href="{% url 'delete_producto' producto.id %}">Eliminar</a></button>

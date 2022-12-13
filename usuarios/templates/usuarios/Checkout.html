@@ -59,7 +59,7 @@
                 <h4>{{Items.producto.name}}</h4>
             </div>
             <div class="Box2">
-                <h4>${{Items.producto.precio|floatformat:1}}</h4>
+                <h4>USD${{Items.producto.precio|floatformat:1}}</h4>
             </div>
             <div class="Box2">
                 <h4>x{{Items.Cantidad}} </h4>
@@ -67,7 +67,7 @@
             {% endfor %}
         </div>
         <h1 class="ChH1">Items: {{orden.Items_Carrito}}</h1>
-        <h1 class="ChH1">Total: ${{orden.Total_Carrito|floatformat:1}}</h1>
+        <h1 class="ChH1">Total: USD${{orden.Total_Carrito|floatformat:1}}</h1>
     </div>
 </div>
 
